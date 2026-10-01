@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company Enrichment Tool</title>
+<style>
+  :root {
+    --bg: #f5f7fe;
+    --panel: #ffffff;
+    --border: #e3e8f3;
+    --text: #12131a;
+    --muted: #6b7280;
+    --accent-1: #2f6bff;
+    --accent-2: #8b5cf6;
+    --accent-grad: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    --success: #0a8a3f;
+    --error: #c62828;
+    --track: #eef1f7;
+    --chip-bg: #eef2ff;
+    --chip-text: #4338ca;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* ---- hero ---- */
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 28px;
+  }
+  .hero-text { flex: 1 1 auto; min-width: 260px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--chip-bg);
+    color: var(--chip-text);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+  }
+  h1 .grad {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  p.sub {
+    color: var(--muted);
+    margin: 0;
+    font-size: 15px;
+    max-width: 46ch;
+  }
+  .hero-art {
+    flex: 0 0 auto;
+    width: 150px;
+    height: 130px;
+    position: relative;
+  }
+  .hero-art svg { display: block; }
+
+  /* ---- card ---- */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 8px 30px -12px rgba(47, 107, 255, 0.12);
+  }
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card-head-left { display: flex; gap: 10px; align-items: flex-start; }
+  .card-head-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--chip-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .field-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .count-chip {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--chip-text);
+    background: var(--chip-bg);
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .upload-btn {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--accent-1);
+    background: var(--chip-bg);
+    color: var(--chip-text);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    flex: none;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .upload-btn:hover {
+    background: var(--accent-1);
+    color: #fff;
+  }
+  .upload-btn:hover svg { stroke: #fff; }
+  .upload-btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .textarea-wrap { position: relative; }
+  textarea {
+    width: 100%;
+    min-height: 190px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    background: var(--panel);
+    color: var(--text);
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent-1);
+  }
+  .char-count {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.9);
+    padding: 1px 6px;
+    border-radius: 6px;
+  }
+
+  .actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  button {
+    appearance: none;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #runBtn {
+    background: var(--accent-grad);
+    color: #fff;
+    box-shadow: 0 8px 20px -8px rgba(47, 107, 255, 0.55);
+  }
+  #runBtn:hover { filter: brightness(1.05); }
+  #runBtn:disabled {
+    background: var(--track);
+    color: var(--muted);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  #downloadBtn, #previewBtn {
+    background: #fff;
+    color: var(--text);
+    border: 1px solid var(--border);
+    display: none;
+  }
+  #downloadBtn:hover, #previewBtn:hover { background: var(--track); }
+
+  .export-dropdown { position: relative; }
+  .export-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 190px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 12px 28px -12px rgba(15, 18, 32, 0.25);
+    overflow: hidden;
+    z-index: 20;
+  }
+  .export-menu.open { display: block; }
+  .export-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .export-menu button:hover { background: var(--track); }
+  .export-menu button + button { border-top: 1px solid var(--border); }
+
+  .progress-area {
+    margin-top: 24px;
+    display: none;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--track);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-grad);
+    transition: width 0.25s ease;
+  }
+  .log {
+    margin-top: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+  .log-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+  .log-row:last-child { border-bottom: none; }
+  .log-row .name { color: var(--text); }
+  .log-row .status { color: var(--muted); font-weight: 700; font-size: 12px; }
+  .log-row .status.done { color: var(--success); }
+  .log-row .status.processing { color: var(--accent-1); }
+
+  .error-box {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--error);
+    border-radius: 10px;
+    color: var(--error);
+    font-size: 13px;
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .hero { flex-direction: column; align-items: flex-start; }
+    .hero-art { display: none; }
+  }
+
+  /* ---- preview modal ---- */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 18, 32, 0.45);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--panel);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 60px -20px rgba(15, 18, 32, 0.35);
+  }
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-head h2 { font-size: 16px; margin: 0; }
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    background: var(--track);
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .modal-close:hover { background: #e2e6f0; }
+  .modal-close svg { width: 16px; height: 16px; flex-shrink: 0; display: block; }
+  .modal-body {
+    padding: 18px 22px;
+    overflow-y: auto;
+  }
+  .result-card {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--cat-color, var(--accent-1));
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 16px;
+    background: #fff;
+    transition: box-shadow 0.15s ease;
+  }
+  .result-card:hover { box-shadow: 0 6px 20px -10px rgba(15, 18, 32, 0.18); }
+  .result-card:last-child { margin-bottom: 0; }
+  .result-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .result-head-left { display: flex; align-items: center; gap: 9px; min-width: 0; }
+  .result-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--cat-tint, var(--chip-bg));
+    color: var(--cat-color, var(--chip-text));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+  .result-icon svg { width: 15px; height: 15px; flex-shrink: 0; display: block; }
+  .result-head h3 {
+    font-size: 15px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cat-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--cat-tint, var(--chip-bg));
+    color: var(--cat-color, var(--chip-text));
+    white-space: nowrap;
+    text-transform: capitalize;
+    flex: none;
+  }
+  .result-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .result-meta span { display: inline-flex; align-items: center; gap: 5px; }
+  .result-meta svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.7; }
+  .result-meta a { color: var(--accent-1); text-decoration: none; font-weight: 600; }
+  .result-meta a:hover { text-decoration: underline; }
+  .result-desc {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+  .result-section {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .result-section-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .result-section-label svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12px;
+    background: var(--track);
+    color: var(--text);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .rel-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .rel-list li { margin-bottom: 5px; }
+  .rel-list li:last-child { margin-bottom: 0; }
+  .relevance-box {
+    background: linear-gradient(135deg, rgba(47,107,255,0.06), rgba(139,92,246,0.06));
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .relevance-box .rel-list { padding-left: 20px; }
+  .relevance-box .rel-list li::marker { color: var(--accent-2); }
+  .empty-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--track);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .empty-note svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.6; }
+
+  /* category accent colors */
+  .result-card.cat-distributor { --cat-color: #b45309; --cat-tint: #fef3c7; }
+  .result-card.cat-ecp { --cat-color: #6d28d9; --cat-tint: #ede9fe; }
+  .result-card.cat-end_user { --cat-color: #1d4ed8; --cat-tint: #dbeafe; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-text">
+        <span class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 11-13h-7l1-7z"/></svg>
+          AI Powered
+        </span>
+        <h1>Company <span class="grad">Enrichment Tool</span></h1>
+        <p class="sub">Enter company names, one per line. Each one is researched and returned as structured JSON.</p>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 150 130" width="150" height="130">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2f6bff"/>
+              <stop offset="1" stop-color="#8b5cf6"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="15" width="80" height="80" rx="18" fill="url(#g1)" opacity="0.95"/>
+          <g fill="#fff" opacity="0.9">
+            <rect x="42" y="38" width="10" height="10" rx="2"/>
+            <rect x="58" y="38" width="10" height="10" rx="2"/>
+            <rect x="42" y="54" width="10" height="10" rx="2"/>
+            <rect x="58" y="54" width="10" height="10" rx="2"/>
+            <rect x="48" y="70" width="12" height="16" rx="2"/>
+          </g>
+          <g transform="translate(80,60)">
+            <rect x="0" y="0" width="62" height="52" rx="10" fill="#ffffff" stroke="#e3e8f3"/>
+            <circle cx="12" cy="13" r="3" fill="#2f6bff"/>
+            <rect x="20" y="10" width="34" height="6" rx="3" fill="#dbe3f7"/>
+            <circle cx="12" cy="26" r="3" fill="#8b5cf6"/>
+            <rect x="20" y="23" width="30" height="6" rx="3" fill="#dbe3f7"/>
+            <circle cx="12" cy="39" r="3" fill="#2f6bff"/>
+            <rect x="20" y="36" width="26" height="6" rx="3" fill="#dbe3f7"/>
+          </g>
+          <g fill="#ffb020">
+            <path d="M118 8 l2.6 5.4 5.4 2.6 -5.4 2.6 -2.6 5.4 -2.6-5.4-5.4-2.6 5.4-2.6z"/>
+          </g>
+          <g fill="#2f6bff" opacity="0.7">
+            <path d="M14 100 l1.8 3.7 3.7 1.8-3.7 1.8-1.8 3.7-1.8-3.7-3.7-1.8 3.7-1.8z"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <div class="card-head-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2f6bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+          </div>
+          <div>
+            <label for="companies">Company names</label>
+            <div class="field-hint">Enter one company name, website, or email per line</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="count-chip" id="companyCount">0 companies</span>
+          <button type="button" class="upload-btn" id="uploadBtn" title="Upload a .txt, .csv, .xlsx or .json file">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Upload File
+          </button>
+          <input type="file" id="fileInput" accept=".txt,.csv,.xlsx,.xlsm,.json" style="display:none;">
+        </div>
+      </div>
+      <div class="field-hint" style="margin-top:-4px; margin-bottom:8px;">Or upload a .txt, .csv, .xlsx or .json file with company names, websites, or emails</div>
+
+      <div class="textarea-wrap">
+        <textarea id="companies" maxlength="500" placeholder="Reliance Industries&#10;larsentoubro.com&#10;sales@sceptre.com.my"></textarea>
+        <span class="char-count" id="charCount">0/500</span>
+      </div>
+
+      <div class="actions">
+        <button id="runBtn">
+          Enrich Companies
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+        <button id="previewBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          Preview
+        </button>
+        <div class="export-dropdown" id="exportDropdown">
+          <button id="downloadBtn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Export
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="export-menu" id="exportMenu">
+            <button type="button" data-format="json">Export as JSON</button>
+            <button type="button" data-format="csv">Export as CSV</button>
+            <button type="button" data-format="xlsx">Export as Excel (.xlsx)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-box" id="errorBox"></div>
+
+      <div class="progress-area" id="progressArea">
+        <div class="progress-header">
+          <span id="progressLabel">0 / 0</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-head">
+        <h2>Preview Results</h2>
+        <button type="button" class="modal-close" id="modalClose" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+<script>
+const runBtn = document.getElementById('runBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const exportDropdown = document.getElementById('exportDropdown');
+const exportMenu = document.getElementById('exportMenu');
+const textarea = document.getElementById('companies');
+const progressArea = document.getElementById('progressArea');
+const barFill = document.getElementById('barFill');
+const progressLabel = document.getElementById('progressLabel');
+const progressPct = document.getElementById('progressPct');
+const logEl = document.getElementById('log');
+const errorBox = document.getElementById('errorBox');
+const companyCount = document.getElementById('companyCount');
+const charCount = document.getElementById('charCount');
+const uploadBtn = document.getElementById('uploadBtn');
+const fileInput = document.getElementById('fileInput');
+const previewBtn = document.getElementById('previewBtn');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+const modalBody = document.getElementById('modalBody');
+
+let latestResults = null;
+let rowEls = {};
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+const ICONS = {
+  building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  tagIcon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 12.3 12.3 20.6a2 2 0 0 1-2.8 0l-6.1-6.1a2 2 0 0 1 0-2.8L11.7 3.4A2 2 0 0 1 13.1 3H19a2 2 0 0 1 2 2v5.9a2 2 0 0 1-.6 1.4Z"/><circle cx="15" cy="8" r="1.5"/></svg>',
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19.5"/></svg>',
+  gears: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.7 9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.2.7.7 1.2 1.6 1.4h.1a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1Z"/></svg>',
+  activity: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+  spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 11-13h-7l1-7z"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
+};
+
+function renderResultCard(r) {
+  const catRaw = (r.company_category || '').toLowerCase();
+  const catClass = ['distributor', 'ecp', 'end_user'].includes(catRaw) ? `cat-${catRaw}` : '';
+
+  const metaParts = [];
+  if (r.country) metaParts.push(`<span>${ICONS.pin}${escapeHtml(r.country)}</span>`);
+  if (r.industry) metaParts.push(`<span>${ICONS.tagIcon}${escapeHtml(r.industry)}</span>`);
+  metaParts.push(
+    r.website
+      ? `<span>${ICONS.link}<a href="${escapeHtml(r.website)}" target="_blank" rel="noopener">${escapeHtml(r.website)}</a></span>`
+      : `<span>${ICONS.link}not resolved</span>`
+  );
+
+  const ops = (r.key_operations || []).map(o => `<span class="tag">${escapeHtml(o)}</span>`).join('');
+  const projects = (r.projects_or_recent_activity || []).map(p => `<li>${escapeHtml(p)}</li>`).join('');
+  const relevance = (r.tritorc_relevance || []).map(t => `<li>${escapeHtml(t)}</li>`).join('');
+
+  return `
+    <div class="result-card ${catClass}">
+      <div class="result-head">
+        <div class="result-head-left">
+          <div class="result-icon">${ICONS.building}</div>
+          <h3>${escapeHtml(r.company_name || 'Unknown company')}</h3>
+        </div>
+        ${r.company_category ? `<span class="cat-badge">${escapeHtml(r.company_category)}</span>` : ''}
+      </div>
+      <div class="result-meta">${metaParts.join('')}</div>
+      ${r.business_description ? `<div class="result-desc">${escapeHtml(r.business_description)}</div>` : ''}
+      ${ops ? `<div class="result-section"><div class="result-section-label">${ICONS.gears}Key operations</div><div class="tag-list">${ops}</div></div>` : ''}
+      ${projects ? `<div class="result-section"><div class="result-section-label">${ICONS.activity}Projects / recent activity</div><ul class="rel-list">${projects}</ul></div>` : ''}
+      <div class="result-section">
+        <div class="result-section-label">${ICONS.spark}Tritorc relevance</div>
+        ${relevance
+          ? `<div class="relevance-box"><ul class="rel-list">${relevance}</ul></div>`
+          : `<div class="empty-note">${ICONS.info}No grounded match found in the Tritorc catalog for this company.</div>`}
+      </div>
+    </div>
+  `;
+}
+
+function openPreview() {
+  if (!latestResults || latestResults.length === 0) return;
+  modalBody.innerHTML = latestResults.map(renderResultCard).join('');
+  modalOverlay.classList.add('open');
+}
+
+function closePreview() {
+  modalOverlay.classList.remove('open');
+}
+
+previewBtn.addEventListener('click', openPreview);
+modalClose.addEventListener('click', closePreview);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closePreview();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closePreview();
+});
+
+function parseNames() {
+  return textarea.value.split('\n').map(s => s.trim()).filter(Boolean);
+}
+
+function updateCounts() {
+  const n = parseNames().length;
+  companyCount.textContent = `${n} ${n === 1 ? 'company' : 'companies'}`;
+  charCount.textContent = `${textarea.value.length}/500`;
+}
+textarea.addEventListener('input', updateCounts);
+updateCounts();
+
+uploadBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', async () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  errorBox.style.display = 'none';
+  const originalTitle = uploadBtn.title;
+  uploadBtn.disabled = true;
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const resp = await fetch('/api/parse-file', { method: 'POST', body: formData });
+    const data = await resp.json();
+    if (!resp.ok) {
+      throw new Error(data.error || `Could not read ${file.name}`);
+    }
+    const names = data.companies || [];
+    if (names.length === 0) {
+      throw new Error(`No company names found in ${file.name}`);
+    }
+    textarea.value = names.join('\n').slice(0, 500);
+    updateCounts();
+  } catch (err) {
+    errorBox.textContent = err.message;
+    errorBox.style.display = 'block';
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.title = originalTitle;
+    fileInput.value = '';
+  }
+});
+
+function resetUI() {
+  logEl.innerHTML = '';
+  rowEls = {};
+  barFill.style.width = '0%';
+  progressLabel.textContent = '0 / 0';
+  progressPct.textContent = '0%';
+  errorBox.style.display = 'none';
+  downloadBtn.style.display = 'none';
+  previewBtn.style.display = 'none';
+  exportMenu.classList.remove('open');
+  closePreview();
+  latestResults = null;
+}
+
+function addRow(name) {
+  const row = document.createElement('div');
+  row.className = 'log-row';
+  row.innerHTML = `<span class="name">${name}</span><span class="status processing">processing</span>`;
+  logEl.appendChild(row);
+  logEl.scrollTop = logEl.scrollHeight;
+  rowEls[name] = row.querySelector('.status');
+}
+
+function markDone(name) {
+  if (rowEls[name]) {
+    rowEls[name].textContent = 'done';
+    rowEls[name].className = 'status done';
+  }
+}
+
+runBtn.addEventListener('click', async () => {
+  const names = parseNames();
+  if (names.length === 0) return;
+
+  resetUI();
+  progressArea.style.display = 'block';
+  runBtn.disabled = true;
+  runBtn.textContent = 'Running...';
+
+  try {
+    const resp = await fetch('/api/enrich', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ companies: names }),
+    });
+
+    if (!resp.ok || !resp.body) {
+      throw new Error('Server error: ' + resp.status);
+    }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    const seen = new Set();
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const parts = buffer.split('\n\n');
+      buffer = parts.pop();
+
+      for (const part of parts) {
+        const line = part.trim();
+        if (!line.startsWith('data:')) continue;
+        const payload = JSON.parse(line.slice(5).trim());
+
+        if (payload.type === 'error') {
+          errorBox.textContent = payload.message;
+          errorBox.style.display = 'block';
+        } else if (payload.type === 'start') {
+          progressLabel.textContent = `0 / ${payload.total}`;
+        } else if (payload.type === 'progress') {
+          if (!seen.has(payload.company)) {
+            seen.add(payload.company);
+            addRow(payload.company);
+          }
+          if (payload.status === 'done') {
+            markDone(payload.company);
+            const pct = Math.round((payload.index / payload.total) * 100);
+            barFill.style.width = pct + '%';
+            progressLabel.textContent = `${payload.index} / ${payload.total}`;
+            progressPct.textContent = pct + '%';
+          }
+        } else if (payload.type === 'complete') {
+          latestResults = payload.results;
+          downloadBtn.style.display = 'inline-flex';
+          previewBtn.style.display = 'inline-flex';
+        }
+      }
+    }
+  } catch (err) {
+    errorBox.textContent = err.message;
+    errorBox.style.display = 'block';
+  } finally {
+    runBtn.disabled = false;
+    runBtn.innerHTML = 'Enrich Companies <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
+  }
+});
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function csvEscape(val) {
+  const s = String(val ?? '');
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+const EXPORT_COLUMNS = [
+  'company_name', 'website', 'country', 'industry', 'company_category',
+  'business_description', 'key_operations', 'projects_or_recent_activity',
+  'tritorc_relevance',
+];
+const LIST_COLUMNS = new Set(['key_operations', 'projects_or_recent_activity', 'tritorc_relevance']);
+
+function toCsv(results) {
+  const header = EXPORT_COLUMNS.map(c => c.replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase()));
+  const lines = [header.map(csvEscape).join(',')];
+  for (const r of results) {
+    const row = EXPORT_COLUMNS.map(col => {
+      const val = r[col];
+      return csvEscape(LIST_COLUMNS.has(col) && Array.isArray(val) ? val.join('; ') : (val ?? ''));
+    });
+    lines.push(row.join(','));
+  }
+  return lines.join('\r\n');
+}
+
+downloadBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!latestResults) return;
+  exportMenu.classList.toggle('open');
+});
+
+exportMenu.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-format]');
+  if (!btn || !latestResults) return;
+  const format = btn.dataset.format;
+  exportMenu.classList.remove('open');
+
+  if (format === 'json') {
+    downloadBlob(new Blob([JSON.stringify(latestResults, null, 2)], { type: 'application/json' }), 'company_enrichment.json');
+  } else if (format === 'csv') {
+    downloadBlob(new Blob([toCsv(latestResults)], { type: 'text/csv' }), 'company_enrichment.csv');
+  } else if (format === 'xlsx') {
+    try {
+      const resp = await fetch('/api/export-xlsx', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ results: latestResults }),
+      });
+      if (!resp.ok) throw new Error('Export failed: ' + resp.status);
+      downloadBlob(await resp.blob(), 'company_enrichment.xlsx');
+    } catch (err) {
+      errorBox.textContent = err.message;
+      errorBox.style.display = 'block';
+    }
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!exportDropdown.contains(e.target)) exportMenu.classList.remove('open');
+});
+</script>
+</body>
+</html>

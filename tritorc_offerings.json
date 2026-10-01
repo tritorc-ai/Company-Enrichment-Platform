@@ -1,0 +1,271 @@
+{
+  "product_categories": [
+    {
+      "category": "Bolt Tensioners",
+      "description": "Crafted for high-pressure, high-stakes operations, Tritorc's hydraulic bolt tensioners deliver pure axial force, eliminating friction losses and ensuring uniform preload across critical joints. Engineered for high-load a",
+      "example_products": [
+        "Top Side Hydraulic Bolt Tensioners",
+        "Multi Stage Hydraulic Bolt Tensioners",
+        "Spring Return Hydraulic Bolt Tensioner"
+      ],
+      "applications": [
+        "Oil & Gas (Up-/Mid-/Down-Stream)",
+        "Pipeline Flange & Valves",
+        "Heat Exchangers",
+        "Pressure Vessels",
+        "X-mas Trees & Wellhead Flanges",
+        "Offshore Platform Riser Systems"
+      ]
+    },
+    {
+      "category": "Cylinder Powerpacks and Pumps",
+      "description": "Our advanced powerpacks and pumps provide efficient hydraulic energy generation and management, designed to enhance the reliability and productivity of your hydraulic systems. Built for rugged use, these units offer ease",
+      "example_products": [
+        "Powerpack for Cylinders",
+        "Light Weight Hand Pump",
+        "Steel Hand Pump"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Double Acting Cylinders",
+      "description": "Designed for bidirectional force control and seamless operation, Tritorc's double-acting hydraulic cylinders offer enhanced precision and power in both extension and retraction phases, ensuring superior efficiency and ve",
+      "example_products": [
+        "Double-Acting Hollow Hydraulic Cylinder",
+        "Double Acting High Tonnage Hydraulic Cylinder"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Flange Management Tools",
+      "description": "Tritorc's Flange Management Tools are engineered to simplify critical maintenance operations, ensuring the safe, efficient, and damage-free handling of flanged joints. From precise flange spreading to controlled nut spli",
+      "example_products": [
+        "Heavy Duty Hydraulic Nut Splitters",
+        "Hydraulic Flange Spreader Standard Maxi Kit",
+        "Light Weight Nut Splitter"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Industrial Impact Sockets",
+      "description": "Engineered for extreme torque, our heavy-duty impact sockets deliver unmatched strength and durability. Ideal for oil and gas, mining, and heavy industries, they ensure safe, efficient fastening with electric or hydrauli",
+      "example_products": [
+        "6 Point Impact Sockets Regular"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Non-Sparking Tools",
+      "description": "Tritorc's non-sparking tools are designed for use in hazardous environments where flammable gases, vapors, or dust are present. Made from high-quality aluminum bronze and beryllium copper alloys, these tools prevent igni",
+      "example_products": [
+        "Non-Sparking Adjustable Wrenches & Pipe Wrenches",
+        "Non Sparking Chisels",
+        "Non-Sparking Combination Spanners"
+      ],
+      "applications": []
+    },
+    {
+      "category": "On-Site Machining Tools & Accessories",
+      "description": "Our on-site machining solutions provide portable, precise, and reliable performance for flange facing, pipe cutting, milling, and boring. Tritorc's tools reduce downtime and eliminate the need for part removal, making th",
+      "example_products": [
+        "Flange Facing Machine - TTFF Series",
+        "Pipe Cutting Machine - TSF Series"
+      ],
+      "applications": [
+        "Restoring worn or distorted flanges on-site (ASME/API code-compliant surface finishes)",
+        "Oil & Gas (Upstream / Midstream / Downstream)",
+        "Riser Pipe Cutting",
+        "Tie-In And Shutdown Isolations",
+        "Flow Line And Manifold Modification",
+        "Compressor Station Maintenance"
+      ]
+    },
+    {
+      "category": "Pipe Accessories",
+      "description": "Tritorc's Pipe Accessories are engineered to provide maximum support, alignment, and safety during pipe fabrication, welding, and assembly. Built for industrial environments, each tool ensures ease of handling, load stab",
+      "example_products": [
+        "Chain Clamps",
+        "Fixed and Folding Stands",
+        "Heavy Duty Beam Roller"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Single Acting Cylinders",
+      "description": "Tritorc's single-acting hydraulic cylinders are built for high-load industrial tasks requiring controlled extension and reliable return. Engineered for strength, durability, and low-maintenance performance, they ensure e",
+      "example_products": [
+        "Single-Acting Hydraulic Cylinder",
+        "Single-Acting Hollow Hydraulic Cylinder",
+        "Single-Acting High Tonnage Hydraulic Cylinder"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Hydraulic Torque Wrenches",
+      "description": "Engineered for demanding industrial environments, Hydraulic Torque Wrenches deliver accurate, repeatable torque for critical bolting applications while reducing operator fatigue.",
+      "example_products": [
+        "Square Drive Type Hydraulic Torque Wrenches — TSL Series",
+        "Low Profile Ratchet, Hex. Type Hydraulic Torque Wrenches — THL Series",
+        "Low Profile Ultra Slim, Hex. Type Hydraulic Torque Wrenches — THL Series"
+      ],
+      "applications": [
+        "Oil & Gas (Upstream, Midstream, Downstream)",
+        "Wellhead & X-mas Tree Flanges",
+        "Refineries & Petrochemical Plant Flanges",
+        "Pipeline Construction & Valve Operations",
+        "Offshore Production Skids & Platform Riser Joints",
+        "Oil & Gas (Up-/Mid-/Down-stream)"
+      ]
+    },
+    {
+      "category": "Tube and Pipe Beveling Machine",
+      "description": "Our on-site machining solutions provide portable, precise, and reliable performance for flange facing, pipe cutting, milling, and boring. Tritorc's tools reduce downtime and eliminate the need for part removal, making th",
+      "example_products": [
+        "TFM - 20 mm to 42 mm",
+        "TFM - 28 mm to 76 mm",
+        "TFM - 51 mm to 203 mm"
+      ],
+      "applications": []
+    },
+    {
+      "category": "Tube Cleaners",
+      "description": "Tritorc's advance tube cleaning solutions are engineered to deliver thorough removal deposits, fouling, scale, and contaminants from tubes of various sizes and materials. Designed to optimize operating efficiency and pre",
+      "example_products": [
+        "Electric Tube Cleaner",
+        "Pneumatic Tube Cleaner",
+        "PORTA - Portable Tube Cleaner"
+      ],
+      "applications": [
+        "Chillers",
+        "Condensers",
+        "Evaporators",
+        "Heat exchangers",
+        "Sugar mills"
+      ]
+    },
+    {
+      "category": "Tube Expanders",
+      "description": "Engineered for precision tube-to-tube sheet expansion, our expanders are designed for concentric, controlled wall contact, high joint integrity, and leak-proof sealing without tube thinning or deformation.",
+      "example_products": [
+        "T-114 Series",
+        "TA Series",
+        "TAF3 Series"
+      ],
+      "applications": [
+        "Sugar evaporators"
+      ]
+    },
+    {
+      "category": "Tube Installation Tools",
+      "description": "Tritorc's tube installation tools deliver precise insertion depth, concentric alignment, and secure mechanical bonding without deformation. Engineered for demanding environments, each tool ensures repeatable installation",
+      "example_products": [
+        "Hydraulic Tube Expansion System & Drives",
+        "Electric Tube Expansion System",
+        "Pneumatic Tube Rolling Drives"
+      ],
+      "applications": [
+        "Boilers",
+        "Condensers",
+        "Heat exchangers",
+        "Boiler",
+        "Condenser",
+        "Heat-Exchanger"
+      ]
+    },
+    {
+      "category": "Tube Removal Tools",
+      "description": "Tritorc's tube removal tools are purpose built for safe, efficient extraction with minimal damage to tube sheets and surrounding components. Whether it's cutting, pulling, or breaking bond seals, each tool delivers focus",
+      "example_products": [
+        "One Turn Internal Tube Cutter",
+        "Push Type Internal Tube Cutter - TATP Series",
+        "B68 Series Internal Tube Cutter"
+      ],
+      "applications": [
+        "Condensers",
+        "Heat Exchangers"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "name": "Onsite Controlled Bolting",
+      "category": "Onsite Controlled Bolting",
+      "description": "Professional controlled bolting services with precision torque application for critical industrial applications and maintenance operations."
+    },
+    {
+      "name": "Pipeline Coldcutting & Bevelling",
+      "category": "Onsite Machining",
+      "description": "Precise pipeline cutting and bevelling services using advanced cold cutting technology."
+    },
+    {
+      "name": "Flange Facing",
+      "category": "Onsite Machining",
+      "description": "Expert flange facing services to ensure perfect sealing surfaces and optimal performance."
+    },
+    {
+      "name": "Dewatering & Dry Air Flushing Services",
+      "category": "Process & Pipeline",
+      "description": "Complete dewatering and dry air flushing solutions for pipeline commissioning."
+    },
+    {
+      "name": "Hydro Testing Services",
+      "category": "Process & Pipeline",
+      "description": "Comprehensive hydrostatic testing services to verify pipeline integrity and safety."
+    },
+    {
+      "name": "Lube-oil Flushing Services",
+      "category": "Process & Pipeline",
+      "description": "Professional lube oil flushing services for optimal system cleanliness and performance."
+    },
+    {
+      "name": "Nitrogen Helium Leak Testing Services",
+      "category": "Process & Pipeline",
+      "description": "Advanced leak detection services using nitrogen and helium testing methods."
+    },
+    {
+      "name": "Nitrogen Purging Preservation Services",
+      "category": "Process & Pipeline",
+      "description": "Nitrogen purging and preservation services to protect pipeline systems."
+    },
+    {
+      "name": "Pneumatic Testing",
+      "category": "Process & Pipeline",
+      "description": "Reliable pneumatic testing services for pressure vessel and pipeline validation."
+    },
+    {
+      "name": "Retubing Services",
+      "category": "Retubing",
+      "description": "Complete retubing solutions for heat exchangers and industrial equipment."
+    },
+    {
+      "name": "Emergency Pipeline Repair Clamp",
+      "category": "Specialized Engineering",
+      "description": "Emergency repair clamp solutions for immediate pipeline leak containment."
+    },
+    {
+      "name": "Hot Tapping & Line Stopping",
+      "category": "Specialized Engineering",
+      "description": "Safe hot tapping and line stopping services for live pipeline modifications."
+    },
+    {
+      "name": "Online Leak Sealing",
+      "category": "Specialized Engineering",
+      "description": "Advanced online leak sealing solutions without system shutdown."
+    },
+    {
+      "name": "Pipe Freezing",
+      "category": "Specialized Engineering",
+      "description": "Professional pipe freezing services for safe pipeline isolation and maintenance."
+    },
+    {
+      "name": "Calibration Services",
+      "category": "Tool Calibration",
+      "description": "Precision tool calibration services to ensure accuracy and compliance."
+    },
+    {
+      "name": "Dry Rental",
+      "category": "Dry Rental",
+      "description": "Equipment rental services with comprehensive dry rental solutions."
+    }
+  ]
+}
